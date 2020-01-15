@@ -3,6 +3,7 @@ package org.launchcode.techjobs.console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Collections;
 
 /**
  * Created by LaunchCode
@@ -61,8 +62,16 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    if(JobData.findMyValue(searchTerm).size() < 1){
+                        System.out.println("Your search returned zero results");
+                    } else
+                    printJobs(JobData.findMyValue(searchTerm));
+
+                    //System.out.println("Search all fields not yet implemented.");
                 } else {
+                    if(JobData.findByColumnAndValue(searchField, searchTerm).size() < 1){
+                        System.out.println("Your search returned zero results");
+                    } else
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
             }
@@ -111,6 +120,28 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        for (HashMap <String, String> job : someJobs){
+            printSingleJob(job);
+        }
+        //printSingleJob(someJobs.get(0));
+
+
+        // System.out.println(someJobs.get(0).get("position type"));
     }
+
+    private static void printSingleJob(HashMap<String, String> job) {
+        System.out.println("*****");
+        for (String key : job.keySet()){
+            System.out.println(key + ": " + job.get(key));
+        }
+        System.out.println("*****");
+
+//        System.out.println("position type: " + job.get("position type"));
+//        System.out.println("name: " + job.get("name"));
+//        System.out.println("employer: " + job.get("employer"));
+//        System.out.println("location: " + job.get("location"));
+//        System.out.println("core competency: " + job.get("core competency"));
+//        System.out.println("*****");
+    }
+
 }
